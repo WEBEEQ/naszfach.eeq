@@ -1,0 +1,125 @@
+{# app/Resources/views/layout.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block viewport %}
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+{% endblock %}
+
+{% block icon %}
+        <link rel="icon" type="image/x-icon" href="{{ url('mainpage') }}image/icon.ico" />
+{% endblock %}
+
+{% block stylesheets %}
+        <script type="text/javascript" src="{{ url('mainpage') }}js/html5.js"></script>
+        <link rel="stylesheet" type="text/css" href="{{ url('mainpage') }}css/default.css" />
+{% endblock %}
+
+{% block body %}
+        <div id="page">
+            <header id="header">
+                <h1><a href="{{ url('mainpage') }}"><img src="{{ url('mainpage') }}image/logo.gif" width="180" height="50" alt="Fachowcy - Usługi, oferty firm" title="NaszFach.pl" /></a></h1>
+                <div id="topbanner">
+                </div>
+            </header>
+            <nav id="menu">
+                <ul>
+                    <li><a href="{{ url('mainpage') }}">Główna</a></li>
+{% if session is defined and session %}
+                    <li><a href="{{ url('mainpage') }}konto">Konto</a></li>
+                    <li><a href="{{ url('mainpage') }}wylogowanie">Wylogowanie</a></li>
+{% else %}
+                    <li><a href="{{ url('mainpage') }}rejestracja">Rejestracja</a></li>
+                    <li><a href="{{ url('mainpage') }}logowanie">Logowanie</a></li>
+{% endif %}
+                    <li><a href="{{ url('mainpage') }}szukanie">Szukanie</a></li>
+                    <li><a href="{{ url('mainpage') }}regulamin">Regulamin</a></li>
+                    <li><a href="{{ url('mainpage') }}prywatnosc">Prywatność</a></li>
+                    <li><a href="{{ url('mainpage') }}pomoc">Pomoc</a></li>
+                    <li><a href="{{ url('mainpage') }}reklama">Reklama</a></li>
+                    <li><a href="{{ url('mainpage') }}kontakt">Kontakt</a></li>
+                    <li><a href="https://www.facebook.com/pages/Fachowcy/133230983487885">Facebook</a></li>
+                    <li><a href="https://plus.google.com/107256516844745286334">Google+</a></li>
+                </ul>
+            </nav>
+            <div id="content">
+                <div id="banner">
+                </div>
+                <section>
+                    <div id="title">
+                        <h2>{% block title %}Fachowcy{% endblock %}</h2>
+                    </div>
+                    <div id="record">
+{%  block record %}{% endblock %}
+                    </div>
+                </section>
+                <div id="navigation">{% block navigation %}<a href="{{ url('mainpage') }}kategoria,1,miejsce,0,0">Główna</a>{% endblock %}</div>
+                <div id="bottombanner">
+                </div>
+            </div>
+            <aside id="sidebar">
+                <h2>Szukanie</h2>
+                <ul>
+                    <li>{{ form_start(quickForm) }}<div>{{ form_widget(quickForm.name) }} {{ form_widget(quickForm.save, { 'label': 'Szukaj' }) }}</div>{{ form_end(quickForm) }}</li>
+                    <li><a href="{{ url('mainpage') }}szukanie">Zaawansowane</a></li>
+                </ul>
+                <h2>Kategorie</h2>
+                <ul>
+                    <li><a href="{{ url('mainpage') }}kategoria,1,miejsce,{{ activeProvince }},{{ activeCity }}">Główne</a></li>
+{%  for category in categories %}
+                    <li>{% if category.id == activeCategory %}&gt; {% endif %}<a href="{{ url('mainpage') }}kategoria,{{ category.id }},miejsce,{{ activeProvince }},{{ activeCity }}">{{ category.name }}</a></li>
+{%  endfor %}
+                </ul>
+                <h2>Miejsca</h2>
+                <ul>
+                    <li><a href="{{ url('mainpage') }}kategoria,{{ activeCategory }},miejsce,0,0">Główne</a></li>
+{%  for place in places %}
+                    <li>{% if place.id == activeProvince and isProvince %}&gt; {% elseif place.id == activeCity and not isProvince %}&gt; {% endif %}<a href="{{ url('mainpage') }}kategoria,{{ activeCategory }},miejsce,{% if isProvince %}{{ place.id }},{{ activeCity }}{% else %}{{ activeProvince }},{{ place.id }}{% endif %}">{{ place.name }}</a></li>
+{%  endfor %}
+                </ul>
+                <div id="sidebanner">
+                </div>
+            </aside>
+            <aside id="bottombar">
+                <div class="bar">
+                    <h2>Info o stronie</h2>
+                    <p>Portal powstawał od początku Września 2011 roku. Został stworzony z myślą o fachowcach, którzy chcą pozyskiwać dodatkowych klientów. Użytkowanie tego serwisu jest bezpłatne i zawsze takie będzie. Naszym celem jest stworzenie bazy firm, którym można ufać i bez obaw zlecać wykonywanie usług.</p>
+                </div>
+                <div class="bar">
+                    <h2>Menu</h2>
+                    <ul>
+                        <li><a href="{{ url('mainpage') }}">Główna</a></li>
+{% if session is defined and session %}
+                        <li><a href="{{ url('mainpage') }}konto">Konto</a></li>
+                        <li><a href="{{ url('mainpage') }}wylogowanie">Wylogowanie</a></li>
+{% else %}
+                        <li><a href="{{ url('mainpage') }}rejestracja">Rejestracja</a></li>
+                        <li><a href="{{ url('mainpage') }}logowanie">Logowanie</a></li>
+{% endif %}
+                        <li><a href="{{ url('mainpage') }}szukanie">Szukanie</a></li>
+                        <li><a href="{{ url('mainpage') }}regulamin">Regulamin</a></li>
+                        <li><a href="{{ url('mainpage') }}prywatnosc">Prywatność</a></li>
+                        <li><a href="{{ url('mainpage') }}pomoc">Pomoc</a></li>
+                        <li><a href="{{ url('mainpage') }}reklama">Reklama</a></li>
+                        <li><a href="{{ url('mainpage') }}kontakt">Kontakt</a></li>
+                        <li><a href="https://www.facebook.com/pages/Fachowcy/133230983487885">Facebook</a></li>
+                        <li><a href="https://plus.google.com/107256516844745286334">Google+</a></li>
+                    </ul>
+                </div>
+                <div class="bar">
+                    <h2>Linki</h2>
+                    <ul>
+                        <li><a href="http://www.sieciq.pl/" title="Tworzenie Stron WWW">SIECIQ</a></li>
+                    </ul>
+                </div>
+            </aside>
+            <footer id="footer">
+                by <a href="http://www.webeeq.com/">WEBEEQ</a>
+            </footer>
+        </div>
+{% endblock %}
+
+{% block javascripts %}
+        <script type="text/javascript" src="{{ url('mainpage') }}js/jquery.js"></script>
+        <script type="text/javascript" src="{{ url('mainpage') }}js/default.js"></script>
+        <script type="text/javascript" src="{{ url('mainpage') }}js/cookies.js"></script>
+{% endblock %}

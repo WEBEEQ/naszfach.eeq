@@ -1,0 +1,11 @@
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation
+
+ajax_firm_call:
+    path:     /ajax/firm/call
+    defaults: { _controller: AppBundle:Ajax:firm }
+
+ajax_search_call:
+    path:     /ajax/search/call
+    defaults: { _controller: AppBundle:Ajax:search }

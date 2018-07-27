@@ -1,0 +1,24 @@
+{# app/Resources/views/register/register.html.twig #}
+{% extends 'layout.html.twig' %}
+
+{% block title %}Rejestracja{% endblock %}
+
+{% block record %}
+                        <p class="info">Opcja rejestracja pozwala na dodanie nowego użytkownika. Login i hasło mogą składać się wyłącznie z liter i cyfr. Nie mogą zawierać polskich znaków. Pamiętaj, aby wpisać trudne do odgadnięcia hasło. Podaj koniecznie istniejący adres e-mail, na który otrzymasz kod aktywacyjny. Podanie błędnego adresu e-mail uniemożliwi aktywację konta.</p>
+{%  if messageString %}
+                        <p class="{{ messageClass }}">{{ messageString|raw }}</p>
+{%  endif %}
+                        {{ form_start(form) }}
+                            <table class="form">
+                                <tr><td class="description">Imię:</td><td>{{ form_widget(form.name) }}</td></tr>
+                                <tr><td class="description">Nazwisko:</td><td>{{ form_widget(form.surname) }}</td></tr>
+                                <tr><td class="description">Login:</td><td>{{ form_widget(form.login) }}</td></tr>
+                                <tr><td class="description">Hasło:</td><td>{{ form_widget(form.password) }}</td></tr>
+                                <tr><td class="description">Powtórz hasło:</td><td>{{ form_widget(form.repeatPassword) }}</td></tr>
+                                <tr><td class="description">E-mail:</td><td>{{ form_widget(form.email) }}</td></tr>
+                                <tr><td class="description">Powtórz e-mail:</td><td>{{ form_widget(form.repeatEmail) }}</td></tr>
+                                <tr><td class="description">&nbsp;</td><td>{{ form_widget(form.accept) }} Akceptuję <a href="{{ url('mainpage') }}regulamin">regulamin</a></td></tr>
+                                <tr><td class="description">&nbsp;</td><td>{{ form_widget(form.save, { 'label': 'Zatwierdź' }) }}</td></tr>
+                            </table>
+                        {{ form_end(form) }}
+{% endblock %}

@@ -1,0 +1,25 @@
+{# app/Resources/views/firm/picture.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block viewport %}{% endblock %}
+
+{% block title %}{% if pictures[i]['name'] is defined %}{{ pictures[i]['name'] }}{% else %}Obrazek{% endif %}{% endblock %}
+
+{% block icon %}
+        <link rel="icon" type="image/x-icon" href="{{ url('mainpage') }}image/icon.ico" />
+{% endblock %}
+
+{% block stylesheets %}
+        <link rel="stylesheet" type="text/css" href="{{ url('mainpage') }}css/picture.css" />
+{% endblock %}
+
+{% block body %}
+{%  if pictures[i]['file'] is defined %}
+        <table><tr><td><img src="{{ url('mainpage') }}image/picture/{{ pictures[i]['file'] }}" width="{{ pictures[i]['width'] }}" height="{{ pictures[i]['height'] }}" alt="{{ pictures[i]['name'] }}" title="{{ pictures[i]['name'] }}" /></td></tr></table>
+{%  endif %}
+        <div>
+            <a{% if activeFirm and pictures[minusI]['id'] is defined and pictures[i]['file'] is defined %} href="{{ url('mainpage') }}firma,{{ activeFirm }}{% if edit %},edycja{% endif %},obrazek,{{ pictures[minusI]['id'] }}"{% endif %}>&lt;</a>
+            <a{% if activeFirm and pictures[plusI]['id'] is defined and pictures[i]['file'] is defined %} href="{{ url('mainpage') }}firma,{{ activeFirm }}{% if edit %},edycja{% endif %},obrazek,{{ pictures[plusI]['id'] }}"{% endif %}>&gt;</a>
+            <a{% if activeFirm %} href="{{ url('mainpage') }}firma,{{ activeFirm }}{% if edit %},edycja{% endif %}"{% endif %}>X</a>
+        </div>
+{% endblock %}

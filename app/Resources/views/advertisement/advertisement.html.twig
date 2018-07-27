@@ -1,0 +1,10 @@
+{# app/Resources/views/advertisement/advertisement.html.twig #}
+{% extends 'layout.html.twig' %}
+
+{% block title %}Reklama{% endblock %}
+
+{% block record %}
+                        <p class="form">Rejestracja i użytkowanie portalu są w pełni darmowe. Jednak dajemy możliwość umieszczania na stronie graficznych banerów reklamowych, które są odpłatne. Cennik publikacji banerów reklamowych:<br /><br />750x100 px - 5 zł / 1000 odsłon;<br />750x200 px - 5 zł / 1000 odsłon;<br />750x300 px - 6 zł / 1000 odsłon;<br />750x400 px - 8 zł / 1000 odsłon;<br />750x500 px - 10 zł / 1000 odsłon;<br />750x600 px - 10 zł / 1000 odsłon.<br /><br />Dajemy około 5 darmowych dni testowych, aby klient mógł się przekonać, czy ruch mu odpowiada. Możemy wówczas wykonać nieodpłatnie prosty baner reklamowy na podstawie dostarczonych materiałów promocyjnych.</p>
+                        <p class="form">Baner musi być poziomy. Maksymalne wymiary banera reklamowego to 750x600 px (250 KB). Sugerujemy szerokość 750 px, ale może być mniej. Maksymalna wysokość to 600 px. Cena wzrasta po przekroczeniu kolejnych 100 px wysokości. I tak cena za wysokość 563 px oraz 600 px jest taka sama.</p>
+                        <p class="form">W celu umieszczenia banera reklamowego zapraszamy do skorzystania z <a href="{{ url('mainpage') }}kontakt">formularza kontaktowego</a>.</p>
+{% endblock %}

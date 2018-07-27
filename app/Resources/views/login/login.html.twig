@@ -1,0 +1,20 @@
+{# app/Resources/views/login/login.html.twig #}
+{% extends 'layout.html.twig' %}
+
+{% block title %}Logowanie{% endblock %}
+
+{% block record %}
+                        <p class="info">Opcja logowanie pozwala na zalogowanie użytkownika. Podaj login i hasło do twojego konta. Jeśli nie pamiętasz hasła, na twój adres e-mail może zostać przesłane nowe. Zapamiętaj hasło, aby nie musieć się ponownie logować.</p>
+{%  if messageString %}
+                        <p class="{{ messageClass }}">{{ messageString|raw }}</p>
+{%  endif %}
+                        {{ form_start(form) }}
+                            <table class="form">
+                                <tr><td class="description">Login:</td><td>{{ form_widget(form.login) }}</td></tr>
+                                <tr><td class="description">Hasło:</td><td>{{ form_widget(form.password) }}</td></tr>
+                                <tr><td class="description">&nbsp;</td><td>{{ form_widget(form.forget) }} Nie pamiętam hasła</td></tr>
+                                <tr><td class="description">&nbsp;</td><td>{{ form_widget(form.remember) }} Zapamiętaj hasło</td></tr>
+                                <tr><td class="description">&nbsp;</td><td>{{ form_widget(form.save, { 'label': 'Zatwierdź' }) }}</td></tr>
+                            </table>
+                        {{ form_end(form) }}
+{% endblock %}

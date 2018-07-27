@@ -1,0 +1,21 @@
+{# app/Resources/views/help/help.html.twig #}
+{% extends 'layout.html.twig' %}
+
+{% block title %}Pomoc (FAQ){% endblock %}
+
+{% block record %}
+                        <p>Kto widzi twoje dane?</p>
+                        <p class="form">Dane firm widzą wszyscy użytkownicy serwisu. Dane użytkownika widzą wyłącznie właściciele firm, którym użytkownik zleca. Jeśli w zleceniu podany zostanie kod polecającego, dane polecającego widzi zleceniodawca i wykonawca powiązanego z nim zlecenia.</p>
+                        <p>Co to jest kod polecającego?</p>
+                        <p class="form">Kod polecającego widoczny jest po zalogowaniu do serwisu w danych użytkownika ustawień konta. W zleceniu pojawia się link do strony z danymi polecającego. Obok linku, jeśli polecający otrzymał przynajmniej jeden komentarz pozytywny od właściciela danej firmy, pojawia się informacja „ok”. Jeśli polecający otrzymał przynajmniej jeden komentarz negatywny od tego konkretnego właściciela firmy, pojawia się informacja „źle”. Analogiczne informacje pojawiają się dla zleceniodawcy.</p>
+                        <p>Komu zlecać?</p>
+                        <p class="form">Strona z danymi firmy oprócz danych kontaktowych zawiera także informacje o ocenach oraz  ilości komentarzy pozytywnych, neutralnych i negatywnych otrzymanych w przeciągu ostatnich 7, 30 oraz wszystkich dni. Ocena firmy jest sprawą subiektywną. Należy się kierować ocenami i komentarzami innych użytkowników. Im komentarzy jest więcej, tym bardziej można im ufać.</p>
+                        <p>Jak tworzone są wyniki wyszukiwania?</p>
+                        <p class="form">Wyniki wyszukiwania firm tworzone są w oparciu o oceny. Jeśli dwie firmy mają identyczną ocenę, wówczas o pozycji decyduje ilość otrzymanych komentarzy. Dane można sortować po nazwach firm, dokładności wykonywania zleceń, kontakcie z wykonawcą, czasie realizacji zleceń oraz ich cenie. Im wyższa ocena średnia, tym dane firm pojawiają się wyżej w wynikach wyszukiwania. Na końcu można również podać minimalną ilość komentarzy, jaką muszą mieć wyświetlane firmy. Zwiększa to wiarygodność wyników wyszukiwania. Możliwe jest także przełączanie pomiędzy wynikami firm przyjmujących i nieprzyjmujących zleceń.</p>
+                        <p>Dlaczego nie wszystkie firmy przyjmują zlecenia?</p>
+                        <p class="form">Strona została stworzona z myślą zarówno o pojedynczych fachowcach oraz firmach wykonujących usługi w dużych ilościach. Wówczas wystawianie komentarzy do każdego zlecenia może być kłopotliwe. Dlatego możliwe jest wyłączenie opcji przyjmowania zleceń i wyświetlanie danych firmy wyłącznie jako wizytówki. Oprócz tego fachowiec może okresowo nie wykonywać zleceń (np. urlop). Wówczas możliwe jest wyłączenie przyjmowania zleceń lub nawet wyświetlania danych firmy.</p>
+                        <p>Jak prawidłowo zlecić wykonanie usługi?</p>
+                        <p class="form">Zanim klikniesz „Zleć teraz!”, koniecznie skontaktuj się z właścicielem firmy i ustal szczegóły. Potem stwórz zlecenie i poczekaj na zatwierdzenie. Teraz możliwe jest wystawienie komentarza. Gdy wystawisz komentarz, właściciel firmy może wystawić kontrkomentarz. Wystawiaj tylko sprawiedliwe komentarze, gdyż ma to na celu pomóc w podejmowaniu decyzji innym użytkownikom serwisu. Możesz również spisać pisemną umowę, aby bezpieczniej uzgodnić cenę oraz inne szczegóły wykonywanego zlecenia.</p>
+                        <p>Dlaczego wolno promować wyłącznie usługi?</p>
+                        <p class="form">Strona została stworzona z myślą o fachowcach, którzy oferują usługi. Nie wolno reklamować wyłącznie sprzedaży detalicznej czy hurtowej (np. sprzedaż RTV, sprzedaż mebli, sprzedaż lokalu), gdyż utrudniałoby to odnalezienie informacji o oferowanych usługach firm (np. naprawa RTV, skręcanie mebli, wynajem lokalu).</p>
+{% endblock %}

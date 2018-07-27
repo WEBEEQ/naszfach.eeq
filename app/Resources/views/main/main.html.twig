@@ -1,0 +1,74 @@
+{# app/Resources/views/main/main.html.twig #}
+{% extends 'layout.html.twig' %}
+
+{% block title %}Fachowcy - Usługi, oferty firm{% endblock %}
+
+{% block record %}
+                        <p class="info">Witamy na naszym portalu. Serwis ten powstał specjalnie z myślą o fachowcach, którzy chcą pozyskiwać dodatkowych klientów. W zamyśle strona ma promować najlepszych fachowców w danej dziedzinie, umieszczając ich wyżej w wynikach przeglądania. Strona jest darmowa i zawsze taka będzie. Nigdy Państwo nie zapłacicie za wyświetlanie oferty Państwa firmy. Na stronie można promować usługi. Nie wolno prowadzić wyłącznie sprzedaży detalicznej czy hurtowej. Jednak dozwolona jest sprzedaż, jeśli wiąże się z wykonywaniem usług. Nasz portal pozwala zleceniodawcom wskazywać polecających. Na podstawie wystawionych komentarzy fachowiec jest informowany, czy może zleceniodawcy i polecającemu zaufać. Pomaga to w podjęciu decyzji, czy lepiej jest zlecenie zatwierdzić czy odrzucić. Po tygodniu niezdecydowania zlecenie jest automatycznie anulowane. Można oczywiście wyłączyć przyjmowanie zleceń. Dane firmy są wówczas wyświetlane jako wizytówka. Jeśli uważacie Państwo, że na stronie brakuje kategorii, która dobrze odzwierciedlałaby zakres działalności Państwa firmy, prosimy o kontakt. Jeśli kategoria będzie pasować do całości, zostanie dodana.</p>
+                        <p>Lista najlepszych firm:</p>
+                        <table class="list">
+                            <tr class="head">
+                                <td class="number">Lp</td>
+                                <td>Firma</td>
+                                <td>Dokładność</td>
+                                <td>Kontakt</td>
+                                <td>Czas</td>
+                                <td>Cena</td>
+                                <td>Zlecenia</td>
+                                <td>Komentarze</td>
+                            </tr>
+{%  if not topFirms %}
+                            <tr>
+                                <td colspan="8">Brak firm do wyświetlenia!</td>
+                            </tr>
+{%  else %}
+{%      set i = 0 %}
+{%      for firm in topFirms %}
+{%          set i = i + 1 %}
+                            <tr onmouseover="swapClass(this, 'choose');" onmouseout="swapClass(this, 'row');">
+                                <td class="number">{{ i }}.</td>
+                                <td class="firm"><a href="{{ url('mainpage') }}firma,{{ firm.id }}">{{ firm.name }}</a></td>
+                                <td>{{ firm.markPrecision }}</td>
+                                <td>{{ firm.markContact }}</td>
+                                <td>{{ firm.markTime }}</td>
+                                <td>{{ firm.markPrice }}</td>
+                                <td>{% if firm.order == 1 %}Tak{% else %}Nie{% endif %}</td>
+                                <td>{{ firm.commentNumber }}</td>
+                            </tr>
+{%      endfor %}
+{%  endif %}
+                        </table>
+                        <p>Lista najnowszych firm:</p>
+                        <table class="list">
+                            <tr class="head">
+                                <td class="number">Lp</td>
+                                <td>Firma</td>
+                                <td>Dokładność</td>
+                                <td>Kontakt</td>
+                                <td>Czas</td>
+                                <td>Cena</td>
+                                <td>Zlecenia</td>
+                                <td>Komentarze</td>
+                            </tr>
+{%  if not newFirms %}
+                            <tr>
+                                <td colspan="8">Brak firm do wyświetlenia!</td>
+                            </tr>
+{%  else %}
+{%      set i = 0 %}
+{%      for firm in newFirms %}
+{%          set i = i + 1 %}
+                            <tr onmouseover="swapClass(this, 'choose');" onmouseout="swapClass(this, 'row');">
+                                <td class="number">{{ i }}.</td>
+                                <td class="firm"><a href="{{ url('mainpage') }}firma,{{ firm.id }}">{{ firm.name }}</a></td>
+                                <td>{{ firm.markPrecision }}</td>
+                                <td>{{ firm.markContact }}</td>
+                                <td>{{ firm.markTime }}</td>
+                                <td>{{ firm.markPrice }}</td>
+                                <td>{% if firm.order == 1 %}Tak{% else %}Nie{% endif %}</td>
+                                <td>{{ firm.commentNumber }}</td>
+                            </tr>
+{%      endfor %}
+{%  endif %}
+                        </table>
+{% endblock %}

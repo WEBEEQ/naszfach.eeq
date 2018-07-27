@@ -1,0 +1,43 @@
+{# app/Resources/views/main/list.html.twig #}
+{% extends 'layout.html.twig' %}
+
+{% block title %}Fachowcy - Usługi, oferty firm{{ title }}{% endblock %}
+
+{% block record %}
+                        <p>Lista firm:</p>
+                        <table class="list">
+                            <tr class="head">
+                                <td><a href="{{ url('mainpage') }}kategoria,{{ activeCategory }},miejsce,{{ activeProvince }},{{ activeCity }},sortowanie,0,{% if activeSort == 0 %}{% if activeDescend == 1 %}0{% else %}1{% endif %}{% else %}0{% endif %},zlecenia,{{ activeOrder }},komentarze,{{ activeComment }},strona,{{ activeLevel }}">Firma</a></td>
+                                <td><a href="{{ url('mainpage') }}kategoria,{{ activeCategory }},miejsce,{{ activeProvince }},{{ activeCity }},sortowanie,1,{% if activeSort == 1 %}{% if activeDescend == 1 %}0{% else %}1{% endif %}{% else %}1{% endif %},zlecenia,{{ activeOrder }},komentarze,{{ activeComment }},strona,{{ activeLevel }}">Dokładność</a></td>
+                                <td><a href="{{ url('mainpage') }}kategoria,{{ activeCategory }},miejsce,{{ activeProvince }},{{ activeCity }},sortowanie,2,{% if activeSort == 2 %}{% if activeDescend == 1 %}0{% else %}1{% endif %}{% else %}1{% endif %},zlecenia,{{ activeOrder }},komentarze,{{ activeComment }},strona,{{ activeLevel }}">Kontakt</a></td>
+                                <td><a href="{{ url('mainpage') }}kategoria,{{ activeCategory }},miejsce,{{ activeProvince }},{{ activeCity }},sortowanie,3,{% if activeSort == 3 %}{% if activeDescend == 1 %}0{% else %}1{% endif %}{% else %}1{% endif %},zlecenia,{{ activeOrder }},komentarze,{{ activeComment }},strona,{{ activeLevel }}">Czas</a></td>
+                                <td><a href="{{ url('mainpage') }}kategoria,{{ activeCategory }},miejsce,{{ activeProvince }},{{ activeCity }},sortowanie,4,{% if activeSort == 4 %}{% if activeDescend == 1 %}0{% else %}1{% endif %}{% else %}1{% endif %},zlecenia,{{ activeOrder }},komentarze,{{ activeComment }},strona,{{ activeLevel }}">Cena</a></td>
+                                <td><a href="{{ url('mainpage') }}kategoria,{{ activeCategory }},miejsce,{{ activeProvince }},{{ activeCity }},sortowanie,{{ activeSort }},{{ activeDescend }},zlecenia,{% if activeOrder == 1 %}0{% else %}1{% endif %},komentarze,{{ activeComment }},strona,{{ activeLevel }}">Zlecenia</a></td>
+                                <td>{{ form_start(form) }}{{ form_widget(form.comment) }}{{ form_widget(form.save, { 'label': 'OK' }) }}{{ form_end(form) }}</td>
+                            </tr>
+{%  if not firms %}
+                            <tr>
+                                <td colspan="7">Brak firm do wyświetlenia!{% if activeOrder == 1 %}<br /><a href="{{ url('mainpage') }}kategoria,{{ activeCategory }},miejsce,{{ activeProvince }},{{ activeCity }},sortowanie,{{ activeSort }},{{ activeDescend }},zlecenia,0,komentarze,{{ activeComment }},strona,1">Sprawdź firmy nieprzyjmujące zleceń.</a>{% endif %}</td>
+                            </tr>
+{%  else %}
+{%      for firm in firms %}
+                            <tr onmouseover="swapClass(this, 'choose');" onmouseout="swapClass(this, 'row');">
+                                <td class="firm"><a href="{{ url('mainpage') }}firma,{{ firm.id }}">{{ firm.name }}</a></td>
+                                <td>{{ firm.markPrecision }}</td>
+                                <td>{{ firm.markContact }}</td>
+                                <td>{{ firm.markTime }}</td>
+                                <td>{{ firm.markPrice }}</td>
+                                <td>{% if firm.order == 1 %}Tak{% else %}Nie{% endif %}</td>
+                                <td>{{ firm.commentNumber }}</td>
+                            </tr>
+{%      endfor %}
+{%  endif %}
+{%  if pageNavigator %}
+                            <tr>
+                                <td colspan="7">{{ pageNavigator|raw }}</td>
+                            </tr>
+{%  endif %}
+                        </table>
+{% endblock %}
+
+{% block navigation %}<a href="{{ url('mainpage') }}kategoria,1,miejsce,{{ activeProvince }},{{ activeCity }}">Główna</a>{{ categoryNavigator|raw }}{% endblock %}

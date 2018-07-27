@@ -1,0 +1,135 @@
+{# app/Resources/views/firm/firm.html.twig #}
+{% extends 'layout.html.twig' %}
+
+{% block title %}{% if firm.name %}{{ firm.name }}{% else %}Firma{% endif %}{% endblock %}
+
+{% block record %}
+                        <p>Dane firmy:</p>
+                        <table class="form">
+                            <tr><td class="description">Firma:</td><td>{% if firm.name %}<a href="{{ url('mainpage') }}firma,{{ firm.id }}">{{ firm.name }}</a>{% endif %}</td></tr>
+                            <tr><td class="description">Ulica:</td><td>{{ firm.street }}</td></tr>
+                            <tr><td class="description">Kod pocztowy:</td><td>{{ firm.postcode }}</td></tr>
+                            <tr><td class="description">Miasto:</td><td>{{ firm.cityName }}</td></tr>
+                            <tr><td class="description">Województwo:</td><td>{{ firm.provinceName }}</td></tr>
+                            <tr><td class="description">Telefon:</td><td>{{ firm.phone }}</td></tr>
+                            <tr><td class="description">E-mail:</td><td>{% if firm.email %}<a href="mailto:{{ firm.email }}">{{ firm.email }}</a>{% endif %}</td></tr>
+                            <tr><td class="description">Strona www:</td><td>{% if firm.url %}<a class="link" onclick="window.open('{{ firm.url }}', 'mywindow', 'top=0,left=0,width=1024,height=768,resizable=yes,location=yes,menubar=yes,toolbar=yes,directories=yes,copyhistory=yes,scrollbars=yes,status=yes');" rel="nofollow">{{ firm.url }}</a>{% endif %}</td></tr>
+                            <tr><td class="description">Opis:</td><td>{{ firm.description|nl2br }}</td></tr>
+                            <tr><td class="description">Kategorie:</td><td>{% for firmCategory in firmCategories %}<a href="{{ url('mainpage') }}kategoria,{{ firmCategory.id }},miejsce,{% if firm.provinceId >= 1 %}{{ firm.provinceId }}{% else %}0{% endif %},{% if firm.cityId >= 1 %}{{ firm.cityId }}{% else %}0{% endif %}">{{ firmCategory.name }}</a><br />{% endfor %}</td></tr>
+{%  if firm.order %}
+                            <tr><td>&nbsp;</td><td><form action="/firma,{{ firm.id }},zlecenie" method="post"><div><input type="submit" name="order_now" value="Zleć teraz!" /></div></form></td></tr>
+{%  endif %}
+                        </table>
+{%  if firmPictures %}
+                        <div class="info picture">
+{%      for firmPicture in firmPictures %}
+                            <a href="{{ url('mainpage') }}firma,{{ activeFirm }},obrazek,{{ firmPicture.id }}"><img src="{{ url('mainpage') }}image/picture/{{ firmPicture.fileMini }}" width="{{ firmPicture.widthMini }}" height="{{ firmPicture.heightMini }}" alt="{{ firmPicture.name }}" title="{{ firmPicture.name }}" /></a>
+{%      endfor %}
+                        </div>
+{%  endif %}
+                        <table class="list left">
+                            <tr class="head">
+                                <td>&nbsp;</td>
+                                <td>7 dni</td>
+                                <td>30 dni</td>
+                                <td>Wszystkie</td>
+                            </tr>
+                            <tr>
+                                <td class="description">Pozytywne:</td>
+                                <td class="positive">{{ firm.commentPositive7Days }}</td>
+                                <td class="positive">{{ firm.commentPositive30Days }}</td>
+                                <td class="positive">{{ firm.commentPositiveAllDays }}</td>
+                            </tr>
+                            <tr>
+                                <td class="description">Neutralne:</td>
+                                <td class="neutral">{{ firm.commentNeutral7Days }}</td>
+                                <td class="neutral">{{ firm.commentNeutral30Days }}</td>
+                                <td class="neutral">{{ firm.commentNeutralAllDays }}</td>
+                            </tr>
+                            <tr>
+                                <td class="description">Negatywne:</td>
+                                <td class="negative">{{ firm.commentNegative7Days }}</td>
+                                <td class="negative">{{ firm.commentNegative30Days }}</td>
+                                <td class="negative">{{ firm.commentNegativeAllDays }}</td>
+                            </tr>
+                        </table>
+                        <table class="list right">
+                            <tr class="head">
+                                <td>&nbsp;</td>
+                                <td>Ocena</td>
+                            </tr>
+                            <tr>
+                                <td class="description">Dokładność wykonania zlecenia:</td>
+                                <td class="{% if firm.markPrecision == 0 %}neutral{% elseif firm.markPrecision >= 4 %}positive{% elseif firm.markPrecision <= 2 %}negative{% else %}neutral{% endif %}">{{ firm.markPrecision }}</td>
+                            </tr>
+                            <tr>
+                                <td class="description">Kontakt z wykonawcą zlecenia:</td>
+                                <td class="{% if firm.markContact == 0 %}neutral{% elseif firm.markContact >= 4 %}positive{% elseif firm.markContact <= 2 %}negative{% else %}neutral{% endif %}">{{ firm.markContact }}</td>
+                            </tr>
+                            <tr>
+                                <td class="description">Czas realizacji zlecenia:</td>
+                                <td class="{% if firm.markTime == 0 %}neutral{% elseif firm.markTime >= 4 %}positive{% elseif firm.markTime <= 2 %}negative{% else %}neutral{% endif %}">{{ firm.markTime }}</td>
+                            </tr>
+                            <tr>
+                                <td class="description">Cena wykonania zlecenia:</td>
+                                <td class="{% if firm.markPrice == 0 %}neutral{% elseif firm.markPrice >= 4 %}positive{% elseif firm.markPrice <= 2 %}negative{% else %}neutral{% endif %}">{{ firm.markPrice }}</td>
+                            </tr>
+                        </table>
+                        <ul class="type">
+                            <li{% if activeType == 0 %} class="active"{% endif %}><a href="{{ url('mainpage') }}firma,{{ activeFirm }}">Wszystkie</a></li>
+{%  for firmCommentType in firmCommentTypes %}
+                            <li{% if activeType == firmCommentType.id %} class="active"{% endif %}><a href="{{ url('mainpage') }}firma,{{ activeFirm }},typ,{{ firmCommentType.id }}">{{ firmCommentType.name }}</a></li>
+{%  endfor %}
+                        </ul>
+                        <table class="list center">
+                            <tr class="head">
+                                <td>Od kogo</td>
+                                <td>Typ</td>
+                                <td>Data</td>
+                                <td>Zwrotny</td>
+                            </tr>
+{%  if not firmComments %}
+                            <tr>
+                                <td colspan="4">Brak komentarzy do wyświetlenia!</td>
+                            </tr>
+{%  else %}
+{%      for firmComment in firmComments %}
+                            <tr onmouseover="swapClass(this, 'choose');" onmouseout="swapClass(this, 'row');">
+                                <td class="name">Xxxxxx Xxxxxxxxx ({{ firmComment.userCommentNumber }})</td>
+                                <td class="{% if firmComment.commentTypeId == 1 %}positive{% elseif firmComment.commentTypeId == 3 %}negative{% else %}neutral{% endif %}">{{ firmComment.commentTypeName }}</td>
+                                <td>{{ firmComment.commentDateAdded|date('d.m.Y H:i:s') }}</td>
+                                <td class="comment"><a onclick="ajaxShow('{{ firmComment.orderId }}');">+</a>/<a onclick="ajaxHide('{{ firmComment.orderId }}');">&ndash;</a></td>
+                            </tr>
+                            <tr>
+                                <td class="text" colspan="4">{{ firmComment.commentText|nl2br }}<div id="text{{ firmComment.orderId }}" class="text"></div></td>
+                            </tr>
+{%      endfor %}
+{%  endif %}
+{%  if firmCommentNavigator %}
+                            <tr>
+                                <td colspan="4">{{ firmCommentNavigator|raw }}</td>
+                            </tr>
+{%  endif %}
+                        </table>
+{% endblock %}
+
+{% block ajax %}
+        <script type="text/javascript">
+            function ajaxShow(value) {
+                $.post('{{ path('ajax_firm_call') }}', {inData: value}, function(response) {
+                    if (response.code == 100 && response.success) {
+                        $('#text' + value).html(response.outData);
+                        $('#text' + value).show();
+                    }
+                }, 'json');
+            }
+            function ajaxHide(value) {
+                $.post('{{ path('ajax_firm_call') }}', {inData: '0'}, function(response) {
+                    if (response.code == 100 && response.success) {
+                        $('#text' + value).hide();
+                        $('#text' + value).html(response.outData);
+                    }
+                }, 'json');
+            }
+        </script>
+{% endblock %}

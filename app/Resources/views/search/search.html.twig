@@ -1,0 +1,73 @@
+{# app/Resources/views/search/search.html.twig #}
+{% extends 'layout.html.twig' %}
+
+{% block title %}Szukanie{% endblock %}
+
+{% block record %}
+                        <p>Szukanie firm:</p>
+{%  if messageString %}
+                        <p class="{{ messageClass }}">{{ messageString|raw }}</p>
+{%  endif %}
+                        {{ form_start(form) }}
+                            <table class="form">
+                                <tr><td class="description">Firma:</td><td>{{ form_widget(form.name) }}</td></tr>
+                                <tr><td class="description">Ulica:</td><td>{{ form_widget(form.street) }}</td></tr>
+                                <tr><td class="description">Kod pocztowy:</td><td>{{ form_widget(form.postcode) }}</td></tr>
+                                <tr><td class="description">Miasto:</td><td id="select1">{{ form_widget(form.city) }}</td></tr>
+                                <tr><td class="description">Województwo:</td><td>{{ form_widget(form.province) }}</td></tr>
+                                <tr><td>&nbsp;</td><td>{{ form_widget(form.save, { 'label': 'Zatwierdź' }) }} {{ form_widget(form.reset, { 'label': 'Wyczyść' }) }}</td></tr>
+                            </table>
+                        {{ form_end(form) }}
+                        <p>Lista firm:</p>
+                        <table class="list">
+                            <tr class="head">
+                                <td><a href="{{ url('mainpage') }}szukanie,1,firma,{{ formName }},ulica,{{ formStreet }},kod,{{ formPostcode }},miejsce,{{ formProvince }},{{ formCity }},sortowanie,0,{% if formSort == 0 %}{% if formDescend == 1 %}0{% else %}1{% endif %}{% else %}0{% endif %},zlecenia,{{ formOrder }},komentarze,{{ formComment }},strona,{{ formLevel }}">Firma</a></td>
+                                <td><a href="{{ url('mainpage') }}szukanie,1,firma,{{ formName }},ulica,{{ formStreet }},kod,{{ formPostcode }},miejsce,{{ formProvince }},{{ formCity }},sortowanie,1,{% if formSort == 1 %}{% if formDescend == 1 %}0{% else %}1{% endif %}{% else %}1{% endif %},zlecenia,{{ formOrder }},komentarze,{{ formComment }},strona,{{ formLevel }}">Dokładność</a></td>
+                                <td><a href="{{ url('mainpage') }}szukanie,1,firma,{{ formName }},ulica,{{ formStreet }},kod,{{ formPostcode }},miejsce,{{ formProvince }},{{ formCity }},sortowanie,2,{% if formSort == 2 %}{% if formDescend == 1 %}0{% else %}1{% endif %}{% else %}1{% endif %},zlecenia,{{ formOrder }},komentarze,{{ formComment }},strona,{{ formLevel }}">Kontakt</a></td>
+                                <td><a href="{{ url('mainpage') }}szukanie,1,firma,{{ formName }},ulica,{{ formStreet }},kod,{{ formPostcode }},miejsce,{{ formProvince }},{{ formCity }},sortowanie,3,{% if formSort == 3 %}{% if formDescend == 1 %}0{% else %}1{% endif %}{% else %}1{% endif %},zlecenia,{{ formOrder }},komentarze,{{ formComment }},strona,{{ formLevel }}">Czas</a></td>
+                                <td><a href="{{ url('mainpage') }}szukanie,1,firma,{{ formName }},ulica,{{ formStreet }},kod,{{ formPostcode }},miejsce,{{ formProvince }},{{ formCity }},sortowanie,4,{% if formSort == 4 %}{% if formDescend == 1 %}0{% else %}1{% endif %}{% else %}1{% endif %},zlecenia,{{ formOrder }},komentarze,{{ formComment }},strona,{{ formLevel }}">Cena</a></td>
+                                <td><a href="{{ url('mainpage') }}szukanie,1,firma,{{ formName }},ulica,{{ formStreet }},kod,{{ formPostcode }},miejsce,{{ formProvince }},{{ formCity }},sortowanie,{{ formSort }},{{ formDescend }},zlecenia,{% if formOrder == 1 %}0{% else %}1{% endif %},komentarze,{{ formComment }},strona,{{ formLevel }}">Zlecenia</a></td>
+                                <td>{{ form_start(commentForm) }}{{ form_widget(commentForm.comment) }}{{ form_widget(commentForm.save, { 'label': 'OK' }) }}{{ form_end(commentForm) }}</td>
+                            </tr>
+{%  if not firms %}
+                            <tr>
+                                <td colspan="7">Brak firm do wyświetlenia!{% if formOrder == 1 %}<br /><a href="{{ url('mainpage') }}szukanie,1,firma,{{ formName }},ulica,{{ formStreet }},kod,{{ formPostcode }},miejsce,{{ formProvince }},{{ formCity }},sortowanie,{{ formSort }},{{ formDescend }},zlecenia,0,komentarze,{{ formComment }},strona,1">Sprawdź firmy nieprzyjmujące zleceń.</a>{% endif %}</td>
+                            </tr>
+{%  else %}
+{%      for firm in firms %}
+                            <tr onmouseover="swapClass(this, 'choose');" onmouseout="swapClass(this, 'row');">
+                                <td class="firm"><a href="{{ url('mainpage') }}firma,{{ firm.id }}">{{ firm.name }}</a></td>
+                                <td>{{ firm.markPrecision }}</td>
+                                <td>{{ firm.markContact }}</td>
+                                <td>{{ firm.markTime }}</td>
+                                <td>{{ firm.markPrice }}</td>
+                                <td>{% if firm.order == 1 %}Tak{% else %}Nie{% endif %}</td>
+                                <td>{{ firm.commentNumber }}</td>
+                            </tr>
+{%      endfor %}
+{%  endif %}
+{%  if pageNavigator %}
+                            <tr>
+                                <td colspan="7">{{ pageNavigator|raw }}</td>
+                            </tr>
+{%  endif %}
+                        </table>
+{% endblock %}
+
+{% block ajax %}
+        <script type="text/javascript">
+            function ajax(value) {
+                $.post('{{ path('ajax_search_call') }}', {inData: value, inData2: '{{ selectedCity }}'}, function(response) {
+                    if (response.code == 100 && response.success) {
+                        $('#select1').html(response.outData);
+                    }
+                }, 'json');
+            }
+
+            $(document).ready(function() {
+                $('#search_form_province').change(function() {
+                    ajax(this.value);
+                });
+            });
+        </script>
+{% endblock %}
